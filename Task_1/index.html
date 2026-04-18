@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lab 1 - Biblioteka Filmów</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <style>
+      .film {
+        border: 1px solid black;
+        margin: 10px;
+        padding: 10px;
+        width: 300px;
+      }
+      .stars {
+        color: orange;
+      }
+      .badge {
+        color: green;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const FILMS = [
+        {
+          id: 1,
+          title: "Oppenheimer",
+          year: 2023,
+          genre: "Dramat",
+          rating: 5,
+          watched: true,
+        },
+        {
+          id: 2,
+          title: "Dune: Część druga",
+          year: 2024,
+          genre: "Sci-Fi",
+          rating: 4,
+          watched: false,
+        },
+        {
+          id: 3,
+          title: "Past Lives",
+          year: 2023,
+          genre: "Romans",
+          rating: 5,
+          watched: true,
+        },
+        {
+          id: 4,
+          title: "Poor Things",
+          year: 2023,
+          genre: "Komedia",
+          rating: 4,
+          watched: false,
+        },
+      ];
+
+      function RatingStars({ rating }) {
+        const s = "★".repeat(rating) + "☆".repeat(5 - rating);
+        return React.createElement("span", { className: "stars" }, s);
+      }
+
+      console.log(
+        "Sprawdzenie gwiazdek:",
+        React.createElement("span", null, "★★★☆☆"),
+      );
+
+      function FilmCard(props) {
+        return React.createElement(
+          "div",
+          { className: "film" },
+          React.createElement(
+            "h3",
+            null,
+            props.title + " (" + props.year + ")",
+          ),
+          React.createElement("p", null, "Gatunek: " + props.genre),
+          React.createElement(RatingStars, { rating: props.rating }),
+          props.watched
+            ? React.createElement("p", { className: "badge" }, "✓ Obejrzany")
+            : null,
+        );
+      }
+
+      const testCard = React.createElement(FilmCard, {
+        title: "Test",
+        year: 2024,
+        genre: "Dramat",
+        rating: 3,
+        watched: false,
+      });
+      console.log("Obiekt karty:", testCard);
+      console.log("Typ komponentu:", testCard.type);
+
+      function App() {
+        return React.createElement(
+          "div",
+          null,
+          React.createElement("h1", null, "🎬 Biblioteka Filmów"),
+          FILMS.map((f) =>
+            React.createElement(FilmCard, {
+              key: f.id,
+              title: f.title,
+              year: f.year,
+              genre: f.genre,
+              rating: f.rating,
+              watched: f.watched,
+            }),
+          ),
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(React.createElement(App));
+    </script>
+  </body>
+</html>
